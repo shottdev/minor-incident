@@ -1,6 +1,8 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
+randomise();
+
 velh = 0;
 velv = 0;
 vel = 1;
@@ -12,7 +14,7 @@ colliders = [obj_wall, obj_human];
 
 infected = false;
 
-dir = 0;
+dir = random(359);
 
 state = noone;
 
@@ -50,14 +52,17 @@ walking_state = function()
 		change_delay = random_range((game_get_speed(gamespeed_fps) / 2), (game_get_speed(gamespeed_fps) * 2));
 	}
 	
-	if (instance_exists(obj_zombie))
+	if (!infected)
 	{
-		var _zombie = instance_nearest(x, y, obj_zombie);
-	
-		if (point_distance(x, y, _zombie.x, _zombie.y) < 30)
+		if (instance_exists(obj_zombie))
 		{
-			dir = point_direction(x, y, _zombie.x, _zombie.y) + 180;
-			state = running_state;
+			var _zombie = instance_nearest(x, y, obj_zombie);
+	
+			if (point_distance(x, y, _zombie.x, _zombie.y) < 30)
+			{
+				dir = point_direction(x, y, _zombie.x, _zombie.y) + 180;
+				state = running_state;
+			}
 		}
 	}
 }
@@ -65,9 +70,8 @@ walking_state = function()
 idle_state = function()
 {
 	change_timer++;
-	dir = 0;
 	
-	if (change_timer >= change_delay)
+	if (change_timer >= change_delay && !infected)
 	{
 		state = choose(walking_state, idle_state);
 		change_timer = 0;
@@ -75,14 +79,17 @@ idle_state = function()
 		change_delay = random_range((game_get_speed(gamespeed_fps) / 2), (game_get_speed(gamespeed_fps) * 2));
 	}
 	
-	if (instance_exists(obj_zombie))
+	if (!infected)
 	{
-		var _zombie = instance_nearest(x, y, obj_zombie);
-	
-		if (point_distance(x, y, _zombie.x, _zombie.y) < 30)
+		if (instance_exists(obj_zombie))
 		{
-			dir = point_direction(x, y, _zombie.x, _zombie.y) + 180;
-			state = running_state;
+			var _zombie = instance_nearest(x, y, obj_zombie);
+	
+			if (point_distance(x, y, _zombie.x, _zombie.y) < 30)
+			{
+				dir = point_direction(x, y, _zombie.x, _zombie.y) + 180;
+				state = running_state;
+			}
 		}
 	}
 }
@@ -94,8 +101,7 @@ running_state = function()
 	
 	if (place_meeting(x + velh, y, colliders))
 	{
-		state = idle_state;
-		change_delay = (game_get_speed(gamespeed_fps) / 3);
+		dir += choose(-45, 45);
 	}
 	else
 	{
@@ -104,17 +110,24 @@ running_state = function()
 	
 	if (place_meeting(x, y + velv, colliders))
 	{
-		state = idle_state;
-		change_delay = (game_get_speed(gamespeed_fps) / 3);
+		dir += choose(-45, 45);
 	}
 	else
 	{
 		y += velv;
 	}
 	
-	var _zombie = instance_nearest(x, y, obj_zombie);
+	if (instance_exists(obj_zombie))
+	{
+		var _zombie = instance_nearest(x, y, obj_zombie);
 	
-	if (point_distance(x, y, _zombie.x, _zombie.y) > 120)
+		if (point_distance(x, y, _zombie.x, _zombie.y) > 120)
+		{
+			state = idle_state;
+		}
+	}
+	
+	if (infected)
 	{
 		state = idle_state;
 	}
