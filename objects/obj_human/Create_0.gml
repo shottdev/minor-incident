@@ -10,6 +10,8 @@ vel = 1;
 change_delay = random_range(FPS, FPS * 2);
 change_timer = 0;
 
+infection_time = FPS * 5;
+
 colliders = [obj_wall, obj_human];
 
 infected = false;
@@ -65,6 +67,11 @@ walking_state = function()
 			}
 		}
 	}
+	
+	if (infected)
+	{
+		state = infected_state;
+	}
 }
 
 idle_state = function()
@@ -92,12 +99,22 @@ idle_state = function()
 			}
 		}
 	}
+	
+	if (infected)
+	{
+		state = infected_state;
+	}
 }
 
 running_state = function()
 {
 	velh = lengthdir_x(vel, dir);
 	velv = lengthdir_y(vel, dir);
+	
+	if (vel > 0.4)
+	{
+		vel -= 0.005;
+	}
 	
 	if (place_meeting(x + velh, y, colliders))
 	{
@@ -129,7 +146,18 @@ running_state = function()
 	
 	if (infected)
 	{
-		state = idle_state;
+		state = infected_state;
+	}
+}
+
+infected_state = function()
+{
+	infection_time--;
+	
+	if (infection_time <= 0)
+	{
+		instance_destroy();
+		instance_create_layer(x, y, "Instances", obj_zombie);
 	}
 }
 

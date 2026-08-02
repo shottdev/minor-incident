@@ -2,3 +2,5 @@
 // Você pode escrever seu código neste editor
 
 state();
+
+depth = -y;
