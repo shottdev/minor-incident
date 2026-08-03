@@ -1,13 +1,12 @@
 {
   "$GMObject":"",
-  "%Name":"obj_human",
+  "%Name":"obj_part",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_human",
+  "name":"obj_part",
   "overriddenProperties":[],
   "parent":{
     "name":"Objetos",
@@ -32,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_human",
-    "path":"sprites/spr_human/spr_human.yy",
+    "name":"spr_part",
+    "path":"sprites/spr_part/spr_part.yy",
   },
   "spriteMaskId":null,
   "visible":true,

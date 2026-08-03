@@ -1,19 +1,22 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
+swing_init();
 
 velh = 0;
 velv = 0;
-vel = 1;
+vel = 0.8;
 
 target = noone;
 
-change_delay = 0;
+change_delay = FPS / 2;
 change_timer = 0;
 
 hunt_time = FPS * 4;
 
 state = noone;
+
+colliders = [obj_wall];
 
 dir = 0;
 
@@ -33,27 +36,21 @@ hunting_state = function()
 			velh = lengthdir_x(vel, dir);
 			velv = lengthdir_y(vel, dir);
 			
-			if (place_meeting(x + velh, y, obj_wall))
+			if (place_meeting(x + velh, y, colliders))
 			{
-				state = idle_state;
-				change_delay = FPS / 2;
-				target = noone;
+				dir += choose(-45, 45);
+				//change_delay = FPS / 2;
+				//target = noone;
 			}
-			else
-			{
-				x += velh;
-			}
+			x += velh;
 			
-			if (place_meeting(x, y + velv, obj_wall))
+			if (place_meeting(x, y + velv, colliders))
 			{
-				state = idle_state;
-				change_delay = FPS / 2;
-				target = noone;
+				dir += choose(-45, 45);
+				//change_delay = FPS / 2;
+				//target = noone;
 			}
-			else
-			{
-				y += velv;
-			}
+			y += velv;
 			
 			if (hunt_time <= 0)
 			{
@@ -63,15 +60,18 @@ hunting_state = function()
 				hunt_time = FPS * 5;
 			}
 			
-			if (place_meeting(x + velh, y + velv, obj_human))
+			if (place_meeting(x, y, obj_human))
 			{
 				var _human = instance_place(x + velh, y + velv, obj_human)
 				
-				if (!_human.infected)
+				if (_human != noone)
 				{
-					_human.infected = true;
-					state = idle_state;
-					change_delay = FPS;
+					if (!_human.infected)
+					{
+						_human.infected = true;
+						state = idle_state;
+						change_delay = FPS;
+					}
 				}
 			}
 		}
@@ -84,12 +84,20 @@ hunting_state = function()
 	{
 		//seto ele
 		target = instance_nearest_with_value(x, y, obj_human, "infected", false);
+		
+		if (target == noone)
+		{
+			state = idle_state;
+		}
 	}
 }
 
 idle_state = function()
 {
 	change_timer++;
+	
+	velh = 0;
+	velv = 0;
 	
 	if (change_timer >= change_delay)
 	{
@@ -99,4 +107,4 @@ idle_state = function()
 	}
 }
 
-state = hunting_state;
+state = idle_state;

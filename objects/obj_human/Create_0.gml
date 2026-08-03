@@ -3,18 +3,32 @@
 
 randomise();
 
+swing_init();
+
+shirt_color = choose(
+make_colour_rgb(255, 103, 15), 
+make_colour_rgb(0, 163, 5),
+c_red,
+make_colour_rgb(38, 121, 255),
+c_yellow
+);
+
 velh = 0;
 velv = 0;
 vel = 1;
 
+colorise_init();
+
+colorise_alpha = 0;
+
 change_delay = random_range(FPS, FPS * 2);
 change_timer = 0;
-
-infection_time = FPS * 5;
 
 colliders = [obj_wall, obj_human];
 
 infected = false;
+infection_seconds = 5;
+infection_time = FPS * infection_seconds;
 
 dir = random(359);
 
@@ -60,7 +74,7 @@ walking_state = function()
 		{
 			var _zombie = instance_nearest(x, y, obj_zombie);
 	
-			if (point_distance(x, y, _zombie.x, _zombie.y) < 30)
+			if (point_distance(x, y, _zombie.x, _zombie.y) < 50)
 			{
 				dir = point_direction(x, y, _zombie.x, _zombie.y) + 180;
 				state = running_state;
@@ -77,6 +91,8 @@ walking_state = function()
 idle_state = function()
 {
 	change_timer++;
+	velh = 0;
+	velv = 0;
 	
 	if (change_timer >= change_delay && !infected)
 	{
@@ -92,7 +108,7 @@ idle_state = function()
 		{
 			var _zombie = instance_nearest(x, y, obj_zombie);
 	
-			if (point_distance(x, y, _zombie.x, _zombie.y) < 30)
+			if (point_distance(x, y, _zombie.x, _zombie.y) < 50)
 			{
 				dir = point_direction(x, y, _zombie.x, _zombie.y) + 180;
 				state = running_state;
@@ -152,12 +168,37 @@ running_state = function()
 
 infected_state = function()
 {
+	if (image_angle != 0)
+	{
+		image_angle = lerp(image_angle, 0, .1);
+	}
+	
 	infection_time--;
+	velh = 0;
+	velv = 0;
+	
+	var _value_alpha = 1 / (infection_seconds * FPS);
+	var _value_yscale = (1 - 0.6) / (infection_seconds * FPS);
+	
+	colorise_alpha += _value_alpha;
+	image_yscale -= _value_yscale;
+	
+	colorise_apply(, colorise_alpha);
 	
 	if (infection_time <= 0)
 	{
 		instance_destroy();
-		instance_create_layer(x, y, "Instances", obj_zombie);
+		instance_create_layer(x, y, "zombies", obj_zombie);
+		
+		repeat (10)
+		{
+			var _part = instance_create_layer(x, y - (sprite_height / 2), "particles", obj_part);
+			_part.dir = random(359);
+			_part.vel = random_range(1, 2);
+			var _scale = random_range(1, 2.5);
+			_part.image_xscale = _scale;
+			_part.image_yscale = _scale;
+		}
 	}
 }
 

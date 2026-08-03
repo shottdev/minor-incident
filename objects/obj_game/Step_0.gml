@@ -1,13 +1,8 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
-if (global.paused)
+
+if (keyboard_check_pressed(vk_escape))
 {
-	exit;
+	global.paused = !global.paused;
 }
-
-state();
-
-swing(velh, velv);
-
-//depth = -y;

@@ -4,6 +4,8 @@
 //criei essa bosta desse macro pq já tava cansado de escrever, to bravo mesmo
 #macro FPS game_get_speed(gamespeed_fps)
 
+global.paused = false;
+
 function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 {
 	var _instances = [];
@@ -33,4 +35,26 @@ function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 	
 	//retorno o id da intancia mais proxima com a variavel
 	return _nearest;
+}
+
+function swing_init()
+{
+	walk_wave = 0;
+}
+
+function swing(_velh, _velv)
+{
+	if (_velh != 0 or _velv != 0)
+	{
+		walk_wave += 0.15;
+		
+		image_angle = sin(walk_wave) * 5;
+		
+		image_yscale = 1 + sin(walk_wave + 90) * 0.08;
+	}
+	else
+	{
+		image_angle = lerp(image_angle, 0, .1);
+		image_yscale = lerp(image_yscale, 1, .1);
+	}
 }
