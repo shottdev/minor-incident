@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_text_outline_shadow",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_text_outline_shadow",
+  "parent":{
+    "name":"OutlineShadow",
+    "path":"folders/Outledd/Text/OutlineShadow.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

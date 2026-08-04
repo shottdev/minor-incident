@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_text_transformed_outline",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_text_transformed_outline",
+  "parent":{
+    "name":"Outline",
+    "path":"folders/Outledd/Text/Outline.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

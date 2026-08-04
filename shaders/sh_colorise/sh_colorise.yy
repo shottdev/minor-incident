@@ -1,10 +1,10 @@
 {
   "$GMShader":"",
-  "%Name":"sh_muda_cor",
-  "name":"sh_muda_cor",
+  "%Name":"sh_colorise",
+  "name":"sh_colorise",
   "parent":{
     "name":"Shader",
-    "path":"folders/Efeitos/Efeito Brilho/Shader.yy",
+    "path":"folders/Colorise/Effect/Shader.yy",
   },
   "resourceType":"GMShader",
   "resourceVersion":"2.0",

@@ -3,6 +3,9 @@
 
 //criei essa bosta desse macro pq já tava cansado de escrever, to bravo mesmo
 #macro FPS game_get_speed(gamespeed_fps)
+#macro HUMAN_CIVIL 0
+#macro HUMAN_MEDIC 1
+#macro HUMAN_COP 2
 
 global.paused = false;
 
@@ -57,4 +60,33 @@ function swing(_velh, _velv)
 		image_angle = lerp(image_angle, 0, .1);
 		image_yscale = lerp(image_yscale, 1, .1);
 	}
+}
+
+function instance_nearest_infected(_x, _y)
+{
+	var _instances = [];
+	
+	with (obj_human)
+	{		
+		if (infected && !being_ignored)
+		{
+			array_push(_instances, self);
+		}
+	}
+	
+	var _nearest = noone;
+	var _shortest_distance = 9999999;
+	
+	for (var i = 0; i < array_length(_instances); i++)
+	{
+		var _distance = point_distance(_x, _y, _instances[i].x, _instances[i].y);
+		if (_distance < _shortest_distance)
+		{
+			_shortest_distance = _distance;
+			_nearest = _instances[i];
+		}
+	}
+	
+	//retorno o id da intancia mais proxima com a variavel
+	return _nearest;
 }

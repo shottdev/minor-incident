@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_text_transformed_shadow",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_text_transformed_shadow",
+  "parent":{
+    "name":"Shadow",
+    "path":"folders/Outledd/Text/Shadow.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

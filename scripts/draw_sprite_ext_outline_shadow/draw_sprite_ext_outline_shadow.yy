@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_sprite_ext_outline_shadow",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_sprite_ext_outline_shadow",
+  "parent":{
+    "name":"OutlineShadow",
+    "path":"folders/Outledd/Sprite/OutlineShadow.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

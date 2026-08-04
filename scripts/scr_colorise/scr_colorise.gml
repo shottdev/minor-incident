@@ -37,7 +37,7 @@ function colorise_draw(_spr)
 	//se o alpha brilho nao for menor do quer zero
 	if (cl_alpha <= 0.01) return;
 	
-	shader_set(sh_muda_cor);
+	shader_set(sh_colorise);
 	draw_sprite_ext(_spr, image_index, x, y, image_xscale, image_yscale, image_angle, cl_color, cl_alpha);
 	shader_reset();
 }

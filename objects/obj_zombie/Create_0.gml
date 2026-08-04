@@ -20,6 +20,9 @@ colliders = [obj_wall];
 
 dir = 0;
 
+shirt_color = make_colour_rgb(38, 121, 255);
+shirt_sprite = spr_zombie_shirt;
+
 //estado de caça
 hunting_state = function()
 {

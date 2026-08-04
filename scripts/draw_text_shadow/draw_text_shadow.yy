@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_efeito_brilho",
+  "%Name":"draw_text_shadow",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_efeito_brilho",
+  "name":"draw_text_shadow",
   "parent":{
-    "name":"Script",
-    "path":"folders/Efeitos/Efeito Brilho/Script.yy",
+    "name":"Shadow",
+    "path":"folders/Outledd/Text/Shadow.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
