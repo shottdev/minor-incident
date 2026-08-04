@@ -68,7 +68,7 @@ function instance_nearest_infected(_x, _y)
 	
 	with (obj_human)
 	{		
-		if (infected && !being_ignored)
+		if (infected && !being_ignored && !marked)
 		{
 			array_push(_instances, self);
 		}

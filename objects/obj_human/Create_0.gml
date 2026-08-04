@@ -1,10 +1,10 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
-randomise();
-
+//iniciando o efeito swing (game feel pra simular animação de walking)
 swing_init();
 
+//decidindo a cor da camisa
 shirt_color = choose(
 make_colour_rgb(255, 103, 15), 
 make_colour_rgb(0, 163, 5),
@@ -14,11 +14,19 @@ make_colour_rgb(255, 179, 0),
 make_colour_rgb(138, 24, 219)
 );
 
+//distancia de notar a presença do zumbi
 notice_distance = 50;
+
+//distancia segura do zumbi
 safe_distance = 120;
 
+//velocidade horizontal
 velh = 0;
+
+//velocidade vertical
 velv = 0;
+
+//velocidade geral
 vel = 1;
 
 colorise_init();
@@ -28,9 +36,9 @@ colorise_alpha = 0;
 change_delay = random_range(FPS, FPS * 2);
 change_timer = 0;
 
-heal_delay = FPS * 1.5;
+heal_delay = FPS * 1.3;
 
-colliders = [obj_wall, obj_human];
+colliders = [obj_wall];
 
 repath_timer = FPS / 3;
 
@@ -40,6 +48,8 @@ infection_time = FPS * infection_seconds;
 
 being_ignored = false;
 ignored_timer = 0;
+
+marked = false;
 
 target_infected = noone;
 
@@ -53,9 +63,18 @@ find_infected = function()
 	
 	if (instance_exists(_nearest_infected) && target_infected == noone)
 	{
-		dir = point_direction(x, y, _nearest_infected.x, _nearest_infected.y);
-		state = going_heal_state;
-		target_infected = _nearest_infected;
+		if (instance_exists(obj_zombie))
+		{
+			var _zombie = instance_nearest(x, y, obj_zombie);
+			
+			if (point_distance(x, y, _zombie.x, _zombie.y) > 80)
+			{
+				dir = point_direction(x, y, _nearest_infected.x, _nearest_infected.y);
+				state = going_heal_state;
+				target_infected = _nearest_infected;
+				target_infected.marked = true;
+			}
+		}
 	}
 }
 
@@ -168,23 +187,25 @@ running_state = function()
 	velh = lengthdir_x(vel, dir);
 	velv = lengthdir_y(vel, dir);
 	
-	if (vel > 0.5)
+	if (vel > 0.7)
 	{
 		vel -= 0.005;
 	}
 	
-	if (place_meeting(x + velh, y, colliders))
+	if (place_meeting(x + velh, y, obj_wall))
 	{
 		dir += choose(-45, 45);
+		repath_timer = FPS / 2;
 	}
 	else
 	{
 		x += velh;
 	}
 	
-	if (place_meeting(x, y + velv, colliders))
+	if (place_meeting(x, y + velv, obj_wall))
 	{
 		dir += choose(-45, 45);
+		repath_timer = FPS / 2;
 	}
 	else
 	{
@@ -232,7 +253,7 @@ running_state = function()
 
 going_heal_state = function()
 {
-	vel = 1.3;
+	vel = 1.6;
 	
 	velh = lengthdir_x(vel, dir);
 	velv = lengthdir_y(vel, dir);
@@ -268,32 +289,34 @@ going_heal_state = function()
 			vel = 1;
 		}
 		
-		if (point_distance(x, y, target_infected.x, target_infected.y) < safe_distance - 20)
+		if (point_distance(x, y, target_infected.x, target_infected.y) < safe_distance - 60)
 		{
 			if (instance_exists(obj_zombie))
 			{
 			
 				var _nearest_zombie = instance_nearest(target_infected.x, target_infected.y, obj_zombie)
 			
-				if (point_distance(target_infected.x, target_infected.y, _nearest_zombie.x, _nearest_zombie.y) <= safe_distance - 30)
+				if (point_distance(target_infected.x, target_infected.y, _nearest_zombie.x, _nearest_zombie.y) <= 50)
 				{
 					state = idle_state;
 					change_timer = 0;
 					vel = 1;
 					target_infected.being_ignored = true;
 					target_infected.ignored_timer = FPS;
+					target_infected.marked = false;
 					target_infected = noone;
 				}
 			}
 		}
 		
-		if (target_infected != noone && target_infected.infection_time < FPS / 1.5)
+		if (target_infected != noone && target_infected.infection_time < FPS / 1.4)
 		{
 			state = idle_state;
 			change_timer = 0;
 			vel = 1;
 			target_infected.being_ignored = true;
 			target_infected.ignored_timer = FPS;
+			target_infected.marked = false;
 			target_infected = noone;
 		}
 	}
@@ -319,7 +342,7 @@ healing_state = function()
 	
 	if (instance_exists(target_infected))
 	{
-		if (point_distance(x, y, target_infected.x, target_infected.y) <= 8)
+		if (place_meeting(x, y, target_infected))
 		{
 			if (change_timer >= heal_delay)
 			{
@@ -329,6 +352,7 @@ healing_state = function()
 					target_infected.infection_time = infection_seconds * FPS;
 					state = idle_state;
 					change_timer = 0;
+					target_infected.marked = false;
 					target_infected = noone;
 				}
 			}
