@@ -524,7 +524,7 @@ infected_state = function()
 		
 		repeat (global.essence_amount)
 		{
-			var _essence = instance_create_layer(x, y - (sprite_height / 2), "misc", obj_essence);
+			var _essence = instance_create_layer(x, y - (sprite_height / 2), "essences", obj_essence);
 			_essence.dir = random(359);
 			var _scale = random_range(1, 1.5);
 			_essence.image_xscale = _scale;

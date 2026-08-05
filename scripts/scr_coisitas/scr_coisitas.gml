@@ -12,6 +12,11 @@ global.subject = 1;
 global.essence_amount = 1;
 global.essences = 0;
 
+global.z_speed_list = [0.8, 0.9, 1.0, 1.1];
+
+
+global.upg_speed = 0;
+
 function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 {
 	var _instances = [];
@@ -102,7 +107,7 @@ function spawn_humans(_amount)
 	repeat (_amount)
 	{
 		var _tries = 100;
-		var _margin = 15;
+		var _margin = 20;
 		
 		while (_tries > 0)
 		{
