@@ -9,7 +9,7 @@ vel = 0.8;
 
 target = noone;
 
-change_delay = FPS / 2;
+change_delay = FPS / 1.5;
 change_timer = 0;
 
 hunt_time = FPS * 4;

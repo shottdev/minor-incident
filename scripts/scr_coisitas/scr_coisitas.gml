@@ -8,6 +8,9 @@
 #macro HUMAN_COP 2
 
 global.paused = false;
+global.subject = 1;
+global.essence_amount = 1;
+global.essences = 0;
 
 function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 {
@@ -89,4 +92,30 @@ function instance_nearest_infected(_x, _y)
 	
 	//retorno o id da intancia mais proxima com a variavel
 	return _nearest;
+}
+
+function spawn_humans(_amount)
+{
+	var _center_x = room_width / 2;
+	var _center_y = room_height / 2;
+	
+	repeat (_amount)
+	{
+		var _tries = 100;
+		var _margin = 15;
+		
+		while (_tries > 0)
+		{
+			var _x = random_range(_margin, room_width - _margin);
+			var _y = random_range(_margin, room_height - _margin);
+			
+			if (point_distance(_x, _y, _center_x, _center_y) >= 180)
+			{
+				instance_create_layer(_x, _y, "humans", obj_human);
+				break;
+			}
+			
+			_tries--;
+		}
+	}
 }

@@ -13,3 +13,4 @@ if (!infected) swing(velh, velv);
 if (profession == HUMAN_MEDIC) show_debug_message(vel);
 
 depth = -y;
+

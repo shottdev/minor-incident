@@ -29,80 +29,154 @@ velv = 0;
 //velocidade geral
 vel = 1;
 
+//iniciando o efeito colorise
 colorise_init();
 
+image_alpha = 0;
+image_yscale = 0.5;
+image_xscale = 1.4;
+
+//alpha do efeito
 colorise_alpha = 0;
 
+//timer e delay pra mudar de estado
 change_delay = random_range(FPS, FPS * 2);
 change_timer = 0;
 
+//delay pra curar um infectado (pros médicos)
 heal_delay = FPS * 1.3;
 
+//colisores
 colliders = [obj_wall];
 
+//delay pra recalcular rota de fuga
 repath_timer = FPS / 3;
 
+//checando se estou infectado
 infected = false;
+
+//tempo em segundos da infecção
 infection_seconds = 5;
+
+//delay da infecção
 infection_time = FPS * infection_seconds;
 
+//se eu to sendo ignorado por um médico agora
 being_ignored = false;
+
+//tempo ignorado
 ignored_timer = 0;
 
+//se eu to marcado por um médico no momento
 marked = false;
 
+//id do meu alvo (pros médicos)
 target_infected = noone;
 
+//direção que vou andar
 dir = random(359);
 
+//estado
 state = noone;
 
+//método para achar um infe
 find_infected = function()
 {
+	//procurando o infectado mais próximo (que esteja infectado, não esteja sendo ignorado e que não esteja marcado por outro médico)
 	var _nearest_infected = instance_nearest_infected(x, y);
 	
+	//se meu infectado existe e eu não tenho nenhum alvo
 	if (instance_exists(_nearest_infected) && target_infected == noone)
 	{
+		//se um zumbi existe
 		if (instance_exists(obj_zombie))
 		{
+			//pegando o zumbi mais próximo de mim
 			var _zombie = instance_nearest(x, y, obj_zombie);
 			
+			//se ele estiver longe o suficiente
 			if (point_distance(x, y, _zombie.x, _zombie.y) > 80)
 			{
+				//pego minha direção pro infectado mais próximo
 				dir = point_direction(x, y, _nearest_infected.x, _nearest_infected.y);
+				
+				//vou pro estado de ir curar
 				state = going_heal_state;
+				
+				//seto meu alvo
 				target_infected = _nearest_infected;
+				
+				//dizendo pro meu alvo que ele tá sendo marcado por um médico
 				target_infected.marked = true;
 			}
 		}
 	}
 }
 
-walking_state = function()
+starting_state = function()
 {
-	velh = lengthdir_x(vel, dir);
-	velv = lengthdir_y(vel, dir);
+	velh = 0;
+	velv = 0;
 	
-	if (place_meeting(x + velh, y, colliders))
+	if (image_alpha < 1)
 	{
-		state = idle_state;
-		change_delay = (game_get_speed(gamespeed_fps) / 3);
+		image_alpha += 0.05;
 	}
 	else
 	{
+		if (image_xscale == 1 && image_yscale == 1)
+		{
+			state = idle_state;
+			change_delay = FPS / 3;
+		}
+		else
+		{
+			image_xscale = lerp(image_xscale, 1, .2);
+			image_yscale = lerp(image_yscale, 1, .2);
+		}
+	}
+}
+
+//estado de andar/passear
+walking_state = function()
+{
+	//pegando a velocidade horizontal com base na direção e velocidade geral
+	velh = lengthdir_x(vel, dir);
+	
+	//pegando a velocidade vertical com base na direção e velocidade geral
+	velv = lengthdir_y(vel, dir);
+	
+	//checando se eu to colidindo com uma parede
+	if (place_meeting(x + velh, y, colliders))
+	{
+		//mudo pro estado de idle
+		state = idle_state;
+		
+		//seto meu delay pra mudar de estado de novo
+		change_delay = (game_get_speed(gamespeed_fps) / 3);
+	}
+	else //se não to encostando em nada
+	{
+		//aumento minha velh no meu x
 		x += velh;
 	}
 	
+	//se eu to colidindo com uma parede (pela vertical)
 	if (place_meeting(x, y + velv, colliders))
 	{
+		//mudo meu estado pro idle
 		state = idle_state;
+		
+		//seto o delay
 		change_delay = (game_get_speed(gamespeed_fps) / 3);
 	}
-	else
+	else //se não to colidindo com nada na vertical
 	{
+		//aumento minha velv no meu y
 		y += velv;
 	}
-		
+	
+	//aumento o timer de mudar de estado
 	change_timer++;
 	
 	if (change_timer >= change_delay)
@@ -346,15 +420,12 @@ healing_state = function()
 		{
 			if (change_timer >= heal_delay)
 			{
-				if (instance_exists(target_infected))
-				{
-					target_infected.infected = false;
-					target_infected.infection_time = infection_seconds * FPS;
-					state = idle_state;
-					change_timer = 0;
-					target_infected.marked = false;
-					target_infected = noone;
-				}
+				target_infected.infected = false;
+				target_infected.infection_time = infection_seconds * FPS;
+				state = idle_state;
+				change_timer = 0;
+				target_infected.marked = false;
+				target_infected = noone;
 			}
 		}
 	}
@@ -450,7 +521,16 @@ infected_state = function()
 			_part.image_xscale = _scale;
 			_part.image_yscale = _scale;
 		}
+		
+		repeat (global.essence_amount)
+		{
+			var _essence = instance_create_layer(x, y - (sprite_height / 2), "misc", obj_essence);
+			_essence.dir = random(359);
+			var _scale = random_range(1, 1.5);
+			_essence.image_xscale = _scale;
+			_essence.image_yscale = _scale;
+		}
 	}
 }
 
-state = idle_state;
+state = starting_state;
