@@ -13,6 +13,7 @@ var _text_subject = string_repeat("0", 2 - string_length(_subject)) + _subject;
 
 draw_set_font(fnt_subject);
 
+draw_text_outline_shadow(_gui_w / 2, 30, "SUBJECT #" + _text_subject, 5, 0, 7);
 
 draw_set_font(fnt_counter);
 
