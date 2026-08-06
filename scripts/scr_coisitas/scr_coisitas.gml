@@ -14,6 +14,12 @@ global.essences = 50;
 
 global.z_speed_list = [0.8, 0.9, 1.0, 1.1];
 
+global.in_transition = false;
+global.next_room = noone;
+global.transition_state = noone;
+
+global.transition = noone;
+
 function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 {
 	var _instances = [];
@@ -96,12 +102,24 @@ function instance_nearest_infected(_x, _y)
 	return _nearest;
 }
 
-function spawn_humans(_amount)
+function spawn_humans(_amount, _medics = 0)
 {
 	var _center_x = room_width / 2;
 	var _center_y = room_height / 2;
 	
-	repeat (_amount)
+	var _professions = []
+	
+	for (var i = 0; i < _amount - _medics; i++)
+	{
+		array_push(_professions, HUMAN_CIVIL);
+	}
+	
+	for (var i = 0; i < _medics; i++)
+	{
+		array_push(_professions, HUMAN_MEDIC);
+	}
+	
+	for (var i = 0; i < _amount; i++)
 	{
 		var _tries = 100;
 		var _margin = 20;
@@ -113,13 +131,45 @@ function spawn_humans(_amount)
 			
 			if (point_distance(_x, _y, _center_x, _center_y) >= 180)
 			{
-				instance_create_layer(_x, _y, "humans", obj_human);
+				var _human = instance_create_layer(_x, _y, "humans", obj_human);
+				_human.profession = _professions[i];
 				break;
 			}
 			
 			_tries--;
 		}
 	}
+}
+
+function go_to_room()
+{
+	global.transition_state = 2;
+	global.transition = noone;
+	room_goto(global.next_room);
+	
+	if (instance_exists(obj_final_results))
+	{
+		instance_destroy(obj_final_results);
+	}
+	
+	if (instance_exists(obj_return_button))
+	{
+		instance_destroy(obj_return_button);
+	}
+}
+
+function end_transition()
+{
+	global.in_transition = false;
+	global.transition_state = 0;
+	global.next_room = noone;
+	
+	if (layer_sequence_exists("sq_transition", global.transition))
+	{
+		layer_sequence_destroy(global.transition);
+	}
+	
+	global.transition = noone;
 }
 
 function upgrade(_sprite = spr_upgrade, _title, _desc, _cost_list, _level, _active, _min_level, _max_level, _parent = undefined) constructor

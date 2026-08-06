@@ -13,6 +13,10 @@ if (_mouse_in)
 	if (_mouse_click)
 	{
 		tween(id, "image_angle", 20, tween_animation.elastic_out);
+		
+		global.in_transition = true;
+		global.transition_state = 1;
+		global.next_room = rm_game;
 	}
 }
 else

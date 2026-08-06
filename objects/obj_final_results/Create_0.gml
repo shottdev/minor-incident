@@ -1,8 +1,8 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
-randomise();
 
-spawn_humans(50, 2);
+image_xscale = 8;
+image_yscale = 0;
 
-game_time = 2 * FPS;
+targ_yscale = 5;

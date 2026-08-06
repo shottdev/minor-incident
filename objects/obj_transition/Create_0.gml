@@ -1,8 +1,5 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
-randomise();
 
-spawn_humans(50, 2);
-
-game_time = 2 * FPS;
+global.transition = noone;

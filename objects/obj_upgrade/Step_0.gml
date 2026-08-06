@@ -68,8 +68,6 @@ else
 
 tween(id, "image_angle", 0, tween_animation.expo_out);
 
-if (keyboard_check_pressed(vk_escape)) room_restart();
-
 if (upg_info.level < upg_info.max_level)
 {
 	if (global.essences < upg_info.cost_list[upg_info.level])

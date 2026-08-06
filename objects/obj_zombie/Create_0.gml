@@ -9,7 +9,7 @@ vel = global.z_speed_list[global.upg_speed.level];
 
 target = noone;
 
-change_delay = FPS / 1.5;
+change_delay = FPS;
 change_timer = 0;
 
 hunt_time = FPS * 4;
