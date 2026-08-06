@@ -5,7 +5,7 @@ swing_init();
 
 velh = 0;
 velv = 0;
-vel = 0.8;
+vel = global.z_speed_list[global.upg_speed.level];
 
 target = noone;
 

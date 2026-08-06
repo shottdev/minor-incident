@@ -22,10 +22,10 @@ draw_text_outline_shadow(_gui_w / 2, 80, _text_final, 3, 0, 5);
 
 draw_sprite_ext(spr_essence, 0, 30, 30, 3, 3, 0, c_white, 1);
 
-draw_set_valign(fa_left);
-draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_set_halign(fa_left);
 
-draw_text_outline_shadow(60, 22, global.essences, 3, 0, 5);
+draw_text_outline_shadow(50, 30, global.essences, 3, 0, 5);
 
 draw_set_valign(fa_none);
 draw_set_halign(fa_none);

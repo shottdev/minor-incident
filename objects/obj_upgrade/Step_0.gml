@@ -5,30 +5,83 @@
 var _mouse_in = position_meeting(mouse_x, mouse_y, id);
 var _mouse_click = mouse_check_button_pressed(mb_left);
 
+parent_upg = upg_info.parent_id;
+
+if (instance_exists(parent_upg))
+{
+	var _ideal_size = point_distance(x, y, parent_upg.x, parent_upg.y);
+	
+	line_size = lerp(line_size, _ideal_size, .2);
+}
+
 if (_mouse_in)
 {
 	if (_mouse_click)
 	{
-		if (global.essences >= value)
+		if (upg_info.level < upg_info.max_level)
 		{
-			var _qtd = array_length(targets);
-		
-			if (_qtd > 0)
+			if (global.essences >= upg_info.cost_list[upg_info.level])
 			{
-				for (var i = 0; i < _qtd; i++)
+				var _qtd = array_length(targets);
+			
+				global.essences -= upg_info.cost_list[upg_info.level];
+				upg_info.level++;
+			
+				if (_qtd > 0 && upg_info.level >= upg_info.min_level)
 				{
-					var _index = targets[i];
-				
-					if (!_index.active)
+					for (var i = 0; i < _qtd; i++)
 					{
-						_index.active = true;
+						var _index = targets[i];
+				
+						if (!_index.upg_info.active)
+						{
+							_index.upg_info.active = true;
+							_index.image_angle = 360;
+							_index.upg_info.parent_id = id;
+							
+							repeat (10)
+							{
+								var _part = instance_create_depth(_index.x, _index.y, depth - 2, obj_part);
+								_part.dir = random(359);
+								var _scale = random_range(1.4, 2.2);
+								_part.image_xscale = _scale;
+								_part.image_yscale = _scale;
+								_part.vel = random_range(1.2, 2);
+							}
+						}
 					}
 				}
 			}
-			
-			obtained = true;
 		}
 		
 		
 	}
+	
+	tween(id, "image_xscale", 1.4, tween_animation.expo_out);
+	tween(id, "image_yscale", 1.4, tween_animation.expo_out);
+}
+else
+{
+	tween(id, "image_xscale", 1, tween_animation.elastic_out);
+	tween(id, "image_yscale", 1, tween_animation.elastic_out);
+}
+
+tween(id, "image_angle", 0, tween_animation.expo_out);
+
+if (keyboard_check_pressed(vk_escape)) room_restart();
+
+if (upg_info.level < upg_info.max_level)
+{
+	if (global.essences < upg_info.cost_list[upg_info.level])
+	{
+		image_blend = make_colour_rgb(120, 120, 120)
+	}
+	else
+	{
+		image_blend = c_white;
+	}
+}
+else
+{
+	image_blend = c_white;
 }

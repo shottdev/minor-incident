@@ -10,12 +10,9 @@
 global.paused = false;
 global.subject = 1;
 global.essence_amount = 1;
-global.essences = 0;
+global.essences = 50;
 
 global.z_speed_list = [0.8, 0.9, 1.0, 1.1];
-
-
-global.upg_speed = 0;
 
 function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 {
@@ -124,3 +121,36 @@ function spawn_humans(_amount)
 		}
 	}
 }
+
+function upgrade(_sprite = spr_upgrade, _title, _desc, _cost_list, _level, _active, _min_level, _max_level, _parent = undefined) constructor
+{
+	sprite = _sprite;
+	title = _title;
+	desc = _desc;
+	cost_list = _cost_list;
+	level = _level;
+	active = _active;
+	min_level = _min_level;
+	max_level = _max_level;
+	parent_id = _parent;
+}
+
+global.upg_start = new upgrade(
+spr_upg_start,
+"Protocolo Inicial",
+"O começo do experimento",
+[0],
+0,
+true,
+1,
+1);
+
+global.upg_speed = new upgrade(
+spr_upg_speed,
+"Metabolismo Acelerado",
+"Aumenta a velocidade dos zumbis",
+[20, 35, 50],
+0,
+false,
+2,
+3);
