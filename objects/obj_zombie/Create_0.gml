@@ -12,16 +12,48 @@ target = noone;
 change_delay = FPS;
 change_timer = 0;
 
-hunt_time = FPS * 4;
+hunt_time = FPS * global.hunt_time_list[global.upg_hunt_time.level];
 
 state = noone;
 
 colliders = [obj_wall];
 
+hp = global.z_life_list[global.upg_life.level];
+
 dir = 0;
+
+kb_velh = 0;
+kb_velv = 0;
+kb_vel = 0;
+
+kb_dir = 0;
 
 shirt_color = make_colour_rgb(38, 121, 255);
 shirt_sprite = spr_zombie_shirt;
+
+check_bullet = function()
+{
+	var _bullet = instance_place(x, y, obj_bullet);
+	
+	if (_bullet)
+	{
+		instance_destroy(_bullet);
+		
+		hp--;
+		
+		repeat (15)
+		{
+			var _part = instance_create_layer(x, y - (sprite_height / 2), "misc", obj_blood_part);
+			_part.dir = random(359);
+			_part.vel = random_range(1, 1.5);
+		}
+	}
+	
+	if (hp <= 0)
+	{
+		instance_destroy();
+	}
+}
 
 //estado de caça
 hunting_state = function()
@@ -59,8 +91,8 @@ hunting_state = function()
 			{
 				state = idle_state;
 				target = noone;
-				change_delay = FPS / 2;
-				hunt_time = FPS * 5;
+				change_delay = FPS * global.idle_time_list[global.upg_idle_time.level];
+				hunt_time = FPS * global.hunt_time_list[global.upg_hunt_time.level];
 			}
 			
 			if (place_meeting(x, y, obj_human))
@@ -73,7 +105,7 @@ hunting_state = function()
 					{
 						_human.infected = true;
 						state = idle_state;
-						change_delay = FPS;
+						change_delay = FPS * global.idle_time_list[global.upg_idle_time.level];
 					}
 				}
 			}
@@ -88,13 +120,19 @@ hunting_state = function()
 		//seto ele
 		target = instance_nearest_with_value(x, y, obj_human, "infected", false);
 		
+		//se não tiver alvo mesmo depois de tentar setá-lo
 		if (target == noone)
 		{
+			//vou pro estado de idle
 			state = idle_state;
 		}
 	}
+	
+	//checando se sou pego por uma bala
+	check_bullet();
 }
 
+//estado de idle
 idle_state = function()
 {
 	change_timer++;
@@ -106,8 +144,9 @@ idle_state = function()
 	{
 		change_timer = 0;
 		state = hunting_state;
-		hunt_time = FPS * 5;
 	}
+	
+	check_bullet();
 }
 
 state = idle_state;

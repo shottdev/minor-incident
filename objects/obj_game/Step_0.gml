@@ -13,7 +13,7 @@ if (!layer_sequence_exists("Transition", global.transition))
 {
 	game_time--;
 	
-	if (game_time <= 0 && !global.paused)
+	if ((game_time <= 0 && !global.paused) or (!instance_exists(obj_zombie) && !global.paused))
 	{
 		global.paused = true;
 		

@@ -1,6 +1,22 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
 
+if (picked)
+{
+	dir = point_direction(x, y, 10, 10);
+	
+	vel = lerp(vel, global.essence_speed_list[global.upg_essence_speed.level], .1);
+	
+	velh = lengthdir_x(vel, dir);
+	velv = lengthdir_y(vel, dir);
+	
+	if (point_distance(x, y, 10, 10) <= 15)
+	{
+		instance_destroy();
+		global.essences++;
+	}
+}
+
 if (global.paused)
 {
 	exit;
@@ -14,23 +30,7 @@ if (vel > 0 && !picked)
 	velv = lengthdir_y(vel, dir);
 }
 
-if (picked)
-{
-	dir = point_direction(x, y, 10, 10);
-	
-	vel = lerp(vel, 10, .1)
-	
-	velh = lengthdir_x(vel, dir);
-	velv = lengthdir_y(vel, dir);
-	
-	if (point_distance(x, y, 10, 10) <= 15)
-	{
-		instance_destroy();
-		global.essences++;
-	}
-}
-
-if (point_distance(x, y, mouse_x, mouse_y) <= 15)
+if (point_distance(x, y, mouse_x, mouse_y) <= global.essence_magnetism_list[global.upg_magnetism.level])
 {
 	picked = true;
 }

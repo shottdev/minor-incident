@@ -24,7 +24,7 @@ draw_set_font(fnt_counter);
 
 draw_sprite_ext(spr_zombie_count, 0, (_gui_w / 2) - 60, 80, 3, 3, 0, c_white, 1);
 draw_text_outline_shadow(_gui_w / 2, 80, _text_final, 3, 0, 5);
-draw_sprite_ext(spr_clock, 0, (_gui_w / 2) - 40, 117, 3, 3, 0, c_white, 1);
+draw_sprite_ext(spr_clock, 0, (_gui_w / 2) - 50, 117, 3, 3, 0, c_white, 1);
 draw_text_outline_shadow(_gui_w / 2, 110, _timer_final + "s", 3, 0, 5);
 
 draw_sprite_ext(spr_essence, 0, 30, 30, 3, 3, 0, c_white, 1);

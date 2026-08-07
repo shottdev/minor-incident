@@ -20,15 +20,14 @@
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"37b44662-7479-4807-adc9-affd8640d78e","blendMode":0,"displayName":"icon","isLocked":false,"name":"37b44662-7479-4807-adc9-affd8640d78e","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
-    {"$GMImageLayer":"","%Name":"389c505c-5a43-4074-ad5c-8ef16157e41c","blendMode":0,"displayName":"icon","isLocked":false,"name":"389c505c-5a43-4074-ad5c-8ef16157e41c","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":false,},
     {"$GMImageLayer":"","%Name":"a217ddc3-ad18-4bde-ae37-dce322c9d098","blendMode":0,"displayName":"base","isLocked":false,"name":"a217ddc3-ad18-4bde-ae37-dce322c9d098","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_upg_speed",
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"Sprites",
-    "path":"folders/Sprites.yy",
+    "name":"Upgrades",
+    "path":"folders/Sprites/Upgrades.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

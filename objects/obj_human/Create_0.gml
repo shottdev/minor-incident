@@ -15,7 +15,7 @@ make_colour_rgb(138, 24, 219)
 );
 
 //distancia de notar a presença do zumbi
-notice_distance = 50;
+notice_distance = global.notice_dist_list[global.upg_notice_dist.level];
 
 //distancia segura do zumbi
 safe_distance = 120;
@@ -27,7 +27,7 @@ velh = 0;
 velv = 0;
 
 //velocidade geral
-vel = 1;
+vel = HUMAN_BASE_VEL;
 
 //iniciando o efeito colorise
 colorise_init();
@@ -44,7 +44,7 @@ change_delay = random_range(FPS, FPS * 2);
 change_timer = 0;
 
 //delay pra curar um infectado (pros médicos)
-heal_delay = FPS * 1.3;
+heal_delay = FPS * 1;
 
 //colisores
 colliders = [obj_wall];
@@ -56,7 +56,7 @@ repath_timer = FPS / 3;
 infected = false;
 
 //tempo em segundos da infecção
-infection_seconds = 5;
+infection_seconds = global.infec_sec_list[global.upg_infec_time.level];
 
 //delay da infecção
 infection_time = FPS * infection_seconds;
@@ -72,6 +72,12 @@ marked = false;
 
 //id do meu alvo (pros médicos)
 target_infected = noone;
+
+//número de balas (pros policiais)
+bullets = global.bullets_list[global.upg_bullets.level];
+
+shoot_delay = FPS / 1.5;
+shoot_timer = 0;
 
 //direção que vou andar
 dir = random(359);
@@ -179,25 +185,78 @@ walking_state = function()
 	//aumento o timer de mudar de estado
 	change_timer++;
 	
+	//se o timer ficar maior que o delay
 	if (change_timer >= change_delay)
 	{
+		//escolho um outro estado pra ir
 		state = choose(walking_state, idle_state);
+		
+		//reseto o timer e randomizo o delay
 		change_timer = 0;
 		change_delay = random_range((game_get_speed(gamespeed_fps) / 2), (game_get_speed(gamespeed_fps) * 2));
 	}
 	
+	//se eu não to infectado
 	if (!infected)
 	{
+		//se existe zumbi
 		if (instance_exists(obj_zombie))
 		{
+			//pego o zumbi mais próximo
 			var _zombie = instance_nearest(x, y, obj_zombie);
 	
+			//se a distância entre eu e o zumbi mais próximo for menor que a distância setada pra perceber
 			if (point_distance(x, y, _zombie.x, _zombie.y) <= notice_distance)
 			{
-				dir = point_direction(x, y, _zombie.x, _zombie.y) + 180;
-				state = running_state;
-				repath_timer = FPS / 3;
-				vel = 1.3;
+				//procuro a profissão
+				switch (profession)
+				{
+					//se eu for um civil
+					case HUMAN_CIVIL:
+					{
+						//mudo a direção pra do zumbi em comparação a minha
+						dir = point_direction(_zombie.x, _zombie.y, x, y);
+				
+						//mudo pro estado de fugir
+						state = running_state;
+				
+						//seto um timer pra recalcular a rota de fuga
+						repath_timer = FPS / 3;
+				
+						//seto a velocidade
+						vel = HUMAN_RUN_VEL;
+					}
+					break;
+					
+					//se eu for um policial
+					case HUMAN_COP:
+					{
+						//caso eu tenha pelo menos uma bala
+						if (bullets > 0)
+						{
+							//vou pro estado de atirar
+							state = shooting_state;
+						
+							//seto o delay
+							shoot_delay = FPS / 1.5;
+						}
+						else //caso eu não tenha balas, daí eu fujo
+						{
+							//mudo a direção pra do zumbi em comparação a minha
+							dir = point_direction(_zombie.x, _zombie.y, x, y);
+				
+							//mudo pro estado de fugir
+							state = running_state;
+				
+							//seto um timer pra recalcular a rota de fuga
+							repath_timer = FPS / 3;
+				
+							//seto a velocidade
+							vel = HUMAN_RUN_VEL;
+						}
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -228,18 +287,67 @@ idle_state = function()
 		change_delay = random_range((game_get_speed(gamespeed_fps) / 2), (game_get_speed(gamespeed_fps) * 2));
 	}
 	
+	//se eu não to infectado
 	if (!infected)
 	{
+		//se existe zumbi
 		if (instance_exists(obj_zombie))
 		{
+			//pego o zumbi mais próximo
 			var _zombie = instance_nearest(x, y, obj_zombie);
 	
-			if (point_distance(x, y, _zombie.x, _zombie.y) < 50)
+			//se a distância entre eu e o zumbi mais próximo for menor que a distância setada pra perceber
+			if (point_distance(x, y, _zombie.x, _zombie.y) <= notice_distance)
 			{
-				dir = point_direction(_zombie.x, _zombie.y, x, y);
-				state = running_state;
-				repath_timer = FPS / 3;
-				vel = 1.3;
+				//procuro a profissão
+				switch (profession)
+				{
+					//se eu for um civil
+					case HUMAN_CIVIL:
+					{
+						//mudo a direção pra do zumbi em comparação a minha
+						dir = point_direction(_zombie.x, _zombie.y, x, y);
+				
+						//mudo pro estado de fugir
+						state = running_state;
+				
+						//seto um timer pra recalcular a rota de fuga
+						repath_timer = FPS / 3;
+				
+						//seto a velocidade
+						vel = HUMAN_RUN_VEL;
+					}
+					break;
+					
+					//se eu for um policial
+					case HUMAN_COP:
+					{
+						//caso eu tenha pelo menos uma bala
+						if (bullets > 0)
+						{
+							//vou pro estado de atirar
+							state = shooting_state;
+						
+							//seto o delay
+							shoot_delay = FPS / 1.5;
+						}
+						else //caso eu não tenha balas, daí eu fujo
+						{
+							//mudo a direção pra do zumbi em comparação a minha
+							dir = point_direction(_zombie.x, _zombie.y, x, y);
+				
+							//mudo pro estado de fugir
+							state = running_state;
+				
+							//seto um timer pra recalcular a rota de fuga
+							repath_timer = FPS / 3;
+				
+							//seto a velocidade
+							vel = HUMAN_RUN_VEL;
+						}
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -253,6 +361,54 @@ idle_state = function()
 	if (profession == HUMAN_MEDIC && !infected)
 	{
 		find_infected();
+	}
+}
+
+shooting_state = function()
+{
+	velh = 0;
+	velv = 0;
+	
+	var _zombie = instance_nearest(x, y, obj_zombie);
+	var _dir = point_direction(x, y, _zombie.x, _zombie.y);
+	
+	shoot_timer++;
+	
+	if (bullets > 0)
+	{
+		if (shoot_timer >= shoot_delay)
+		{
+			shoot_timer = 0;
+			bullets--;
+			
+			var _bullet = instance_create_depth(x, y - (sprite_height / 2), depth - 1, obj_bullet);
+			_bullet.vel = 6;
+			_bullet.dir = _dir;
+			_bullet.image_angle = _dir;
+		}
+	}
+	else
+	{
+		if (point_distance(x, y, _zombie.x, _zombie.y) <= notice_distance)
+		{
+			state = running_state;
+		}
+		else
+		{
+			state = idle_state;
+			change_delay = FPS / 2;
+		}
+	}
+	
+	if (point_distance(x, y, _zombie.x, _zombie.y) >= safe_distance)
+	{
+		state = idle_state;
+		change_delay = FPS / 2;
+	}
+	
+	if (infected)
+	{
+		state = infected_state;
 	}
 }
 
@@ -510,6 +666,12 @@ infected_state = function()
 				_new_zombie.shirt_sprite = spr_medic_zombie_shirt;
 			}
 			break;
+			case HUMAN_COP:
+			{
+				_new_zombie.shirt_color = noone;
+				_new_zombie.shirt_sprite = spr_cop_zombie_cloth;
+			}
+			break;
 		}
 		
 		repeat (10)
@@ -522,7 +684,11 @@ infected_state = function()
 			_part.image_yscale = _scale;
 		}
 		
-		repeat (global.essence_amount)
+		var _essence_amount = global.essence_amount_list[global.upg_essences.level];
+		
+		if (global.upg_essences_bonus.active) _essence_amount += 1;
+		
+		repeat (_essence_amount)
 		{
 			var _essence = instance_create_layer(x, y - (sprite_height / 2), "essences", obj_essence);
 			_essence.dir = random(359);

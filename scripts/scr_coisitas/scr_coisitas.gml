@@ -6,13 +6,13 @@
 #macro HUMAN_CIVIL 0
 #macro HUMAN_MEDIC 1
 #macro HUMAN_COP 2
+#macro HUMAN_BASE_VEL 1
+#macro HUMAN_RUN_VEL 1.3
+#macro HUMAN_MEDIC_RUNNING_VEL 1.6
 
 global.paused = false;
-global.subject = 1;
-global.essence_amount = 1;
-global.essences = 50;
-
-global.z_speed_list = [0.8, 0.9, 1.0, 1.1];
+global.subject = 0;
+global.essences = 0;
 
 global.in_transition = false;
 global.next_room = noone;
@@ -102,14 +102,14 @@ function instance_nearest_infected(_x, _y)
 	return _nearest;
 }
 
-function spawn_humans(_amount, _medics = 0)
+function spawn_humans(_amount, _medics = 0, _cops = 0)
 {
 	var _center_x = room_width / 2;
 	var _center_y = room_height / 2;
 	
 	var _professions = []
 	
-	for (var i = 0; i < _amount - _medics; i++)
+	for (var i = 0; i < _amount - _medics - _cops; i++)
 	{
 		array_push(_professions, HUMAN_CIVIL);
 	}
@@ -118,6 +118,13 @@ function spawn_humans(_amount, _medics = 0)
 	{
 		array_push(_professions, HUMAN_MEDIC);
 	}
+	
+	for (var i = 0; i < _cops; i++)
+	{
+		array_push(_professions, HUMAN_COP);
+	}
+	
+	array_shuffle(_professions);
 	
 	for (var i = 0; i < _amount; i++)
 	{
@@ -145,6 +152,7 @@ function go_to_room()
 {
 	global.transition_state = 2;
 	global.transition = noone;
+	global.paused = false;
 	room_goto(global.next_room);
 	
 	if (instance_exists(obj_final_results))
@@ -199,8 +207,140 @@ global.upg_speed = new upgrade(
 spr_upg_speed,
 "Metabolismo Acelerado",
 "Aumenta a velocidade dos zumbis",
-[20, 35, 50],
+[10, 20],
+0,
+false,
+1,
+2);
+
+global.z_speed_list = [0.8, 0.9, 1.0];
+
+global.upg_essences = new upgrade(
+spr_upg_essences,
+"Sacrifício Valorizado",
+"Aumenta o número de essências dropadas dos humanos",
+[5],
+0,
+false,
+1,
+1);
+
+global.essence_amount_list = [1, 2];
+
+global.upg_magnetism = new upgrade(
+spr_upg_magnetism,
+"Coleta Magnética",
+"Aumenta o raio de distância necessário pra coletar os upgrades",
+[15, 20, 25],
 0,
 false,
 2,
 3);
+
+global.essence_magnetism_list = [15, 20, 30, 45];
+
+global.upg_infec_time = new upgrade(
+spr_upg_infec_time,
+"Mordida Profunda",
+"Diminui o tempo pra um humano se tornar zumbi após ser infectado",
+[35],
+0,
+false,
+1,
+1);
+
+global.infec_sec_list = [5, 4.5];
+
+global.upg_hunt_time = new upgrade(
+spr_upg_hunt_time,
+"Ferozmente Determinado",
+"Aumenta o tempo de perseguição do zumbi antes de desistir de um alvo",
+[15, 30],
+0,
+false,
+1,
+2);
+
+global.hunt_time_list = [4, 5, 6];
+
+global.upg_idle_time = new upgrade(
+spr_upg_idle_time,
+"Reativação Imediata",
+"Diminui o tempo que os zumbis ficam parados antes de voltar a caçar",
+[25, 35, 50],
+0,
+false,
+2,
+3);
+
+global.idle_time_list = [1, .8, .6, .3];
+
+global.upg_life = new upgrade(
+spr_upg_life,
+"Tecido Reforçado",
+"Aumenta a vida dos zumbis",
+[20, 30],
+0,
+false,
+1,
+2);
+
+global.z_life_list = [1, 2, 3];
+
+global.upg_notice_dist = new upgrade(
+spr_upg_notice_dist,
+"Modo Camaleão",
+"Diminui a distância necessária pros humanos perceberem a presença de um zumbi",
+[15, 25, 45],
+0,
+false,
+2,
+3);
+
+global.notice_dist_list = [60, 55, 45, 30];
+
+global.upg_safe_dist = new upgrade(
+spr_upg_safe_dist,
+"Limiar do Pânico",
+"Diminui a distância em que os humanos se sentem seguros",
+[25, 35, 50],
+0,
+false,
+2,
+3);
+
+global.safe_dist_list = [140, 130, 100, 80];
+
+global.upg_essences_bonus = new upgrade(
+spr_upg_essences_bonus,
+"Excedente do Sacrifício",
+"Aumenta ainda mais o número de essências dropadas pelos humanos",
+[30],
+0,
+false,
+1,
+1);
+
+global.upg_essence_speed = new upgrade(
+spr_upg_essence_speed,
+"Extração Acelerada",
+"Aumenta a velocidade que as essências são coletadas",
+[25, 30, 45],
+0,
+false,
+1,
+3);
+
+global.essence_speed_list = [8, 10, 12, 14];
+
+global.upg_bullets = new upgrade(
+spr_upg_bullets,
+"Escassez de Recursos",
+"Diminui o número de balas do policial",
+[25, 30],
+0,
+false,
+1,
+2);
+
+global.bullets_list = [5, 4, 3];

@@ -21,17 +21,6 @@ if (instance_exists(parent_upg))
 	draw_line_width(_x1, _y1, _x2, _y2, 4);
 }
 
-if (upg_info.level < upg_info.max_level)
-{
-	draw_text_transformed_outline_shadow(x, y + 23, string("{0}/{1}", upg_info.level, upg_info.max_level), .4, .4, 0, 1, 0, 1.5);
-}
-else
-{
-	draw_set_colour(c_yellow);
-	draw_text_transformed_outline_shadow(x, y + 23, "MAX!", .4, .4, 0, 1, 0, 1.5);
-	draw_set_colour(c_white);
-}
-
 draw_set_halign(fa_none);
 draw_set_valign(fa_none);
 draw_set_font(-1);
