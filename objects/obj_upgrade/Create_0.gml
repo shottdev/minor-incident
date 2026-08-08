@@ -13,3 +13,5 @@ parent_upg = noone;
 
 if (upg_info.active) image_angle = 360;
 
+line_color = c_white;
+

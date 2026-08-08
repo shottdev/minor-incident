@@ -48,6 +48,8 @@ check_bullet = function()
 			_part.vel = random_range(1, 1.5);
 			_part.scale = random_range(.7, 1.3);
 		}
+		
+		pitch(snd_damage, .8, 1.2);
 	}
 	
 	if (hp <= 0)

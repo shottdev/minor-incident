@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_pickup",
+  "%Name":"snd_upgrade",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.44945577,
+  "duration":0.13891156,
   "exportDir":"",
-  "name":"snd_pickup",
+  "name":"snd_upgrade",
   "parent":{
     "name":"Sons",
     "path":"folders/Sons.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_pickup.wav",
+  "soundFile":"snd_upgrade.wav",
   "volume":0.9,
 }

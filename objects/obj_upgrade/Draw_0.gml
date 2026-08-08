@@ -18,7 +18,7 @@ if (instance_exists(parent_upg))
 	var _x2 = parent_upg.x + lengthdir_x(line_size, _dir);
 	var _y2 = parent_upg.y + lengthdir_y(line_size, _dir);
 	
-	draw_line_width(_x1, _y1, _x2, _y2, 4);
+	draw_line_width_colour(_x1, _y1, _x2, _y2, 4, parent_upg.line_color, line_color);
 }
 
 draw_set_halign(fa_none);

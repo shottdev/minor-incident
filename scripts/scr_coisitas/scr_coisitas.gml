@@ -12,7 +12,7 @@
 
 global.paused = false;
 global.subject = 0;
-global.essences = 1000;
+global.essences = 0;
 
 global.in_transition = false;
 global.next_room = noone;

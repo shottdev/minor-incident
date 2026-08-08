@@ -51,6 +51,11 @@ if (_mouse_in)
 						}
 					}
 				}
+				pitch(snd_upgrade, .6, 1.4);
+			}
+			else
+			{
+				pitch(snd_upgrade_blocked, .7, 1.3);	
 			}
 		}
 		
@@ -82,4 +87,13 @@ if (upg_info.level < upg_info.max_level)
 else
 {
 	image_blend = c_white;
+}
+
+if (upg_info.level == upg_info.max_level)
+{
+	line_color = c_yellow;
+}
+else
+{
+	line_color = c_white;
 }

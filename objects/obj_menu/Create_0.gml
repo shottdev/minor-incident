@@ -73,6 +73,9 @@ control_menu = function()
 		
 		//reseto a escala
 		scale = 1;
+		
+		//toco sonzinho
+		pitch(snd_button, .8, 1.2);
 	}
 
 	//checando a aba
@@ -129,12 +132,14 @@ control_menu = function()
 					if (_left)
 					{
 						if (global.sfx_gain > 0) global.sfx_gain -= .05;
+						pitch(snd_button, .8, 1.2);
 					}
 					
 					//se aperto pra direita, mudo o volume da sfx
 					if (_right)
 					{
 						if (global.sfx_gain < 1) global.sfx_gain += .05;
+						pitch(snd_button, .8, 1.2);
 					}
 				}
 			}
@@ -161,7 +166,7 @@ draw_menu = function()
 	
 	//setando as posições
 	var _x = _gui_w / 2;
-	var _y = _gui_h / 2.5;
+	var _y = _gui_h / 2;
 	
 	//setando o alinhamento pro centro
 	draw_set_halign(fa_center);

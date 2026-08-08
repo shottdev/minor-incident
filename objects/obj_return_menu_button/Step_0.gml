@@ -17,6 +17,8 @@ if (_mouse_in)
 		global.in_transition = true;
 		global.transition_state = 1;
 		global.next_room = rm_menu;
+		
+		pitch(snd_button, .8, 1.2);
 	}
 }
 else
