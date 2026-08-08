@@ -59,6 +59,7 @@
   "resources":[
     {"id":{"name":"tween_curves","path":"animcurves/tween_curves/tween_curves.yy",},},
     {"id":{"name":"fnt_counter","path":"fonts/fnt_counter/fnt_counter.yy",},},
+    {"id":{"name":"fnt_menu","path":"fonts/fnt_menu/fnt_menu.yy",},},
     {"id":{"name":"fnt_subject","path":"fonts/fnt_subject/fnt_subject.yy",},},
     {"id":{"name":"fnt_upgrades","path":"fonts/fnt_upgrades/fnt_upgrades.yy",},},
     {"id":{"name":"obj_blood_part","path":"objects/obj_blood_part/obj_blood_part.yy",},},
