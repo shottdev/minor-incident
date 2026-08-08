@@ -20,7 +20,7 @@ draw_sprite_ext(spr_zombie_count, 0, x - 23, y - 15, 1.8, 1.8, 0, c_white, 1);
 draw_set_halign(fa_left);
 
 var _string_counter = string(instance_number(obj_zombie));
-draw_text_transformed(x + 5, y - 10, string_repeat("0", 2 - string_length(_string_counter)) + _string_counter, .7, .7, 0);
+draw_text_transformed_outline_shadow(x + 5, y - 10, string_repeat("0", 2 - string_length(_string_counter)) + _string_counter, .7, .7, 0, 2, 0, 3);
 
 draw_set_halign(fa_center);
 

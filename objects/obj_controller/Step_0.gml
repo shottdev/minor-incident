@@ -17,3 +17,6 @@ if (global.in_transition && global.transition == noone)
 		}
 	}
 }
+
+
+window_set_fullscreen(global.fullscreen);

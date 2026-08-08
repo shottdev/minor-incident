@@ -19,7 +19,7 @@ else if (global.subject > 10 && global.subject < 16)
 }
 else if (global.subject > 15 && global.subject < 21)
 {
-	spawn_humans(55, 4, 50);
+	spawn_humans(55, 4, 2);
 }
 
 game_time = 30 * FPS;

@@ -9,8 +9,8 @@
   "name":"obj_essence",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objetos",
-    "path":"folders/Objetos.yy",
+    "name":"Game",
+    "path":"folders/Objetos/Game.yy",
   },
   "parentObjectId":null,
   "persistent":false,

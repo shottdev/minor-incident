@@ -11,8 +11,8 @@
 #macro HUMAN_MEDIC_RUNNING_VEL 1.6
 
 global.paused = false;
-global.subject = 20;
-global.essences = 99999;
+global.subject = 0;
+global.essences = 1000;
 
 global.in_transition = false;
 global.next_room = noone;
@@ -23,8 +23,9 @@ global.transition = noone;
 global.fullscreen = false;
 
 global.master_gain = 1;
-global.music_gain = .6;
-global.sfx_gain = .75;
+global.music_gain = 1;
+global.sfx_gain = .7;
+global.music = noone;
 
 function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 {
@@ -181,6 +182,11 @@ function spawn_humans(_amount, _medics = 0, _cops = 0)
 			_tries--;
 		}
 	}
+}
+
+function pitch(_soundid, _min, _max)
+{
+	audio_play_sound(_soundid, 0, false, global.master_gain * global.sfx_gain, 0, random_range(_min, _max));
 }
 
 function go_to_room()

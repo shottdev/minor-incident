@@ -11,8 +11,8 @@
   "name":"obj_upgrade",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objetos",
-    "path":"folders/Objetos.yy",
+    "name":"Game",
+    "path":"folders/Objetos/Game.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -36,8 +36,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_upgrade",
-    "path":"sprites/spr_upgrade/spr_upgrade.yy",
+    "name":"spr_upgrade_placeholder",
+    "path":"sprites/spr_upgrade_placeholder/spr_upgrade_placeholder.yy",
   },
   "spriteMaskId":null,
   "visible":true,

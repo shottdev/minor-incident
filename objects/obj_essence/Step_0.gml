@@ -14,6 +14,7 @@ if (picked)
 	{
 		instance_destroy();
 		global.essences++;
+		pitch(snd_pickup, 1.1, 1.4);
 	}
 }
 
