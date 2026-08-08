@@ -71,6 +71,7 @@
     {"id":{"name":"obj_part","path":"objects/obj_part/obj_part.yy",},},
     {"id":{"name":"obj_play_button","path":"objects/obj_play_button/obj_play_button.yy",},},
     {"id":{"name":"obj_return_button","path":"objects/obj_return_button/obj_return_button.yy",},},
+    {"id":{"name":"obj_return_menu_button","path":"objects/obj_return_menu_button/obj_return_menu_button.yy",},},
     {"id":{"name":"obj_transition","path":"objects/obj_transition/obj_transition.yy",},},
     {"id":{"name":"obj_tween","path":"objects/obj_tween/obj_tween.yy",},},
     {"id":{"name":"obj_upgrade","path":"objects/obj_upgrade/obj_upgrade.yy",},},
@@ -123,6 +124,7 @@
     {"id":{"name":"spr_upg_essence_speed","path":"sprites/spr_upg_essence_speed/spr_upg_essence_speed.yy",},},
     {"id":{"name":"spr_upg_essences_bonus","path":"sprites/spr_upg_essences_bonus/spr_upg_essences_bonus.yy",},},
     {"id":{"name":"spr_upg_essences","path":"sprites/spr_upg_essences/spr_upg_essences.yy",},},
+    {"id":{"name":"spr_upg_estrategism","path":"sprites/spr_upg_estrategism/spr_upg_estrategism.yy",},},
     {"id":{"name":"spr_upg_hunt_time","path":"sprites/spr_upg_hunt_time/spr_upg_hunt_time.yy",},},
     {"id":{"name":"spr_upg_idle_time","path":"sprites/spr_upg_idle_time/spr_upg_idle_time.yy",},},
     {"id":{"name":"spr_upg_infec_time","path":"sprites/spr_upg_infec_time/spr_upg_infec_time.yy",},},
@@ -141,9 +143,9 @@
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
+    {"roomId":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
     {"roomId":{"name":"rm_upgrades","path":"rooms/rm_upgrades/rm_upgrades.yy",},},
     {"roomId":{"name":"rm_game","path":"rooms/rm_game/rm_game.yy",},},
-    {"roomId":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

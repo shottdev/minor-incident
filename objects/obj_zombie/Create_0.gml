@@ -43,9 +43,10 @@ check_bullet = function()
 		
 		repeat (15)
 		{
-			var _part = instance_create_layer(x, y - (sprite_height / 2), "misc", obj_blood_part);
+			var _part = instance_create_depth(x, y - (sprite_height / 2), depth - 1, obj_blood_part);
 			_part.dir = random(359);
 			_part.vel = random_range(1, 1.5);
+			_part.scale = random_range(.7, 1.3);
 		}
 	}
 	
@@ -117,8 +118,23 @@ hunting_state = function()
 	}
 	else //se o alvo não existir
 	{
-		//seto ele
-		target = instance_nearest_with_value(x, y, obj_human, "infected", false);
+		if (global.upg_estrategism.level > 0)
+		{
+			var _medic = instance_nearest_medic(x, y);
+			
+			if (instance_exists(_medic))
+			{
+				target = _medic;
+			}
+			else
+			{
+				target = instance_nearest_with_value(x, y, obj_human, "infected", false);
+			}
+		}
+		else
+		{
+			target = instance_nearest_with_value(x, y, obj_human, "infected", false);
+		}
 		
 		//se não tiver alvo mesmo depois de tentar setá-lo
 		if (target == noone)

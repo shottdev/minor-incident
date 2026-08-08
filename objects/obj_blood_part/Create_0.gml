@@ -3,3 +3,4 @@
 
 vel = 0;
 dir = 0;
+scale = 1;

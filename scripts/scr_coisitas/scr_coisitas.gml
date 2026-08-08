@@ -11,14 +11,20 @@
 #macro HUMAN_MEDIC_RUNNING_VEL 1.6
 
 global.paused = false;
-global.subject = 0;
-global.essences = 0;
+global.subject = 20;
+global.essences = 99999;
 
 global.in_transition = false;
 global.next_room = noone;
 global.transition_state = noone;
 
 global.transition = noone;
+
+global.fullscreen = false;
+
+global.master_gain = 1;
+global.music_gain = .6;
+global.sfx_gain = .75;
 
 function instance_nearest_with_value(_x, _y, _obj, _var_name, _value)
 {
@@ -80,6 +86,35 @@ function instance_nearest_infected(_x, _y)
 	with (obj_human)
 	{		
 		if (infected && !being_ignored && !marked)
+		{
+			array_push(_instances, self);
+		}
+	}
+	
+	var _nearest = noone;
+	var _shortest_distance = 9999999;
+	
+	for (var i = 0; i < array_length(_instances); i++)
+	{
+		var _distance = point_distance(_x, _y, _instances[i].x, _instances[i].y);
+		if (_distance < _shortest_distance)
+		{
+			_shortest_distance = _distance;
+			_nearest = _instances[i];
+		}
+	}
+	
+	//retorno o id da intancia mais proxima com a variavel
+	return _nearest;
+}
+
+function instance_nearest_medic(_x, _y)
+{
+	var _instances = [];
+	
+	with (obj_human)
+	{		
+		if (!infected && profession == HUMAN_MEDIC)
 		{
 			array_push(_instances, self);
 		}
@@ -178,6 +213,22 @@ function end_transition()
 	}
 	
 	global.transition = noone;
+}
+
+function onoff(_value)
+{
+	switch (_value)
+	{
+		case true:
+		{
+			return "ON";
+		}
+		
+		case false:
+		{
+			return "OFF";
+		}
+	}
 }
 
 function upgrade(_sprite = spr_upgrade, _title, _desc, _cost_list, _level, _active, _min_level, _max_level, _parent = undefined) constructor
@@ -303,7 +354,7 @@ global.upg_safe_dist = new upgrade(
 spr_upg_safe_dist,
 "Limiar do Pânico",
 "Diminui a distância em que os humanos se sentem seguros",
-[25, 35, 50],
+[25, 35, 45],
 0,
 false,
 2,
@@ -325,7 +376,7 @@ global.upg_essence_speed = new upgrade(
 spr_upg_essence_speed,
 "Extração Acelerada",
 "Aumenta a velocidade que as essências são coletadas",
-[25, 30, 45],
+[25, 30, 40],
 0,
 false,
 1,
@@ -344,3 +395,13 @@ false,
 2);
 
 global.bullets_list = [5, 4, 3];
+
+global.upg_estrategism = new upgrade(
+spr_upg_estrategism,
+"Estrategismo",
+"Agora os zumbis caçam os médicos mais próximos primeiro",
+[55],
+0,
+false,
+1,
+1);
