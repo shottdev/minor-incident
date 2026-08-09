@@ -256,6 +256,32 @@ walking_state = function()
 						}
 					}
 					break;
+					
+					case HUMAN_MEDIC:
+					{
+						if (target_infected != noone)
+						{
+							if (point_distance(_zombie.x, _zombie.y, x, y) <= 80)
+							{
+								dir = point_direction(_zombie.x, _zombie.y, x, y);
+								vel = HUMAN_RUN_VEL;
+								repath_timer = FPS / 3;
+								state = running_state;
+							}
+							else
+							{
+								state = going_heal_state;
+							}
+						}
+						else
+						{
+							dir = point_direction(_zombie.x, _zombie.y, x, y);
+							vel = HUMAN_RUN_VEL;
+							repath_timer = FPS / 3;
+							state = running_state;
+						}
+					}
+					break;
 				}
 			}
 		}
@@ -267,9 +293,14 @@ walking_state = function()
 		image_yscale = 1;
 	}
 	
-	if (profession == HUMAN_MEDIC && !infected)
+	if (instance_exists(obj_zombie))
 	{
-		find_infected();
+		var _z = instance_nearest(x, y, obj_zombie);
+		
+		if (profession == HUMAN_MEDIC && !infected && point_distance(x, y, _z.x, _z.y) > 80)
+		{
+			find_infected();
+		}
 	}
 }
 
@@ -347,6 +378,32 @@ idle_state = function()
 						}
 					}
 					break;
+					
+					case HUMAN_MEDIC:
+					{
+						if (target_infected != noone)
+						{
+							if (point_distance(_zombie.x, _zombie.y, x, y) <= 80)
+							{
+								dir = point_direction(_zombie.x, _zombie.y, x, y);
+								vel = HUMAN_RUN_VEL;
+								repath_timer = FPS / 3;
+								state = running_state;
+							}
+							else
+							{
+								state = going_heal_state;
+							}
+						}
+						else
+						{
+							dir = point_direction(_zombie.x, _zombie.y, x, y);
+							vel = HUMAN_RUN_VEL;
+							repath_timer = FPS / 3;
+							state = running_state;
+						}
+					}
+					break;
 				}
 			}
 		}
@@ -358,9 +415,14 @@ idle_state = function()
 		image_yscale = 1;
 	}
 	
-	if (profession == HUMAN_MEDIC && !infected)
+	if (instance_exists(obj_zombie))
 	{
-		find_infected();
+		var _z = instance_nearest(x, y, obj_zombie);
+		
+		if (profession == HUMAN_MEDIC && !infected && point_distance(x, y, _z.x, _z.y) > 80)
+		{
+			find_infected();
+		}
 	}
 }
 
@@ -473,11 +535,6 @@ running_state = function()
 	{
 		state = infected_state;
 		image_yscale = 1;
-	}
-	
-	if (profession == HUMAN_MEDIC && !infected)
-	{
-		find_infected();
 	}
 }
 
